@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCartStore } from "../stores/useCartStore";
 import { FaTrashAlt } from "react-icons/fa";
+import RecommendedProductCard from "../components/RecommendedProductCard";
+import axios from "../lib/axios";
+
 function CartPage() {
   const { cart, total, coupon, subtotal, removeFromCart, updateQuantity } = useCartStore();
+  const [getRecommendedProducts, setGetRecommendedProducts] = useState([]);
 
   console.log("cart", cart);
   console.log("total", total);
@@ -10,7 +14,11 @@ function CartPage() {
   // console.log("subtotal", subtotal);
 
   useEffect(() => {
-    console.log("cart", cart);
+    const fetchRecommendedProducts = async () => {
+      const response = await axios.get(`/products/recommendation`);
+      setGetRecommendedProducts(response.data);
+    }
+    fetchRecommendedProducts();
   }, [cart]);
 
 
@@ -70,10 +78,12 @@ function CartPage() {
               ))}
             </div>
 
-            <div className="flex flex-col gap-5 mt-10">
+            <div className="flex flex-col gap-5 mt-10 w-full mb-10">
               <h2>People are bought</h2>
               <div className="flex flex-row gap-5">
-                {/* 3 products - future*/}
+                {Array.isArray(getRecommendedProducts) && getRecommendedProducts.map((eachProduct) => (
+                  <RecommendedProductCard key={eachProduct._id} product={eachProduct} />
+                ))}
               </div>
             </div>
           </div>
