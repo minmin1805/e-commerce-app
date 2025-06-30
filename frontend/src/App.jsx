@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import AdminPage from "./pages/AdminPage";
 import CategoryPage from "./pages/CategoryPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="/login" element={!user? <LoginPage /> : <Navigate to="/"/>}></Route>
           <Route path="/secret-dashboard" element={user?.role === "admin"? <AdminPage /> : <Navigate to="/"/>}></Route>
           <Route path="/category/:category" element={<CategoryPage />}></Route>
+          <Route path="/cart" element={<CartPage />}></Route>
         </Routes>
       </div>
       <Toaster />

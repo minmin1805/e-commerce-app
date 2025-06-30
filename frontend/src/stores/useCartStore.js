@@ -11,6 +11,7 @@ export const useCartStore = create((set, get) => ({
     getAllCartItems: async () => {
         try {
             const foundCartItems = await axios.get("/cart");
+            console.log("foundCartItems", foundCartItems.data);
             set({cart: foundCartItems.data});
             get().calculateTotal();
         } catch (error) {
