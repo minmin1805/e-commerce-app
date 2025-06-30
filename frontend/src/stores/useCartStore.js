@@ -1,0 +1,51 @@
+import { create } from "zustand";
+import axios from "../lib/axios";
+import toast from "react-hot-toast";
+
+export const useCartStore = create((set, get) => ({
+	cart: [],
+	total: 0,
+	coupon: null,
+	subtotal: 0,
+
+    getAllCartItems: async () => {
+        try {
+            const foundCartItems = await axios.get("/cart");
+            set({cart: foundCartItems.data});
+            get().calculateTotal();
+        } catch (error) {
+            set({cart: []});
+            toast.error("Error in getting cart items");
+            console.log("Error in getting cart items", error.message);
+        }
+    },
+    addToCart: async (product) => {
+        try {
+            console.log("product id", product._id);
+            const updatedCart = await axios.post("/cart", {productId: product._id});
+            toast.success("Product added to cart");
+
+            set((prevState) => {
+                const existingItem = prevState.cart.find((item) => item._id === product._id);
+                const newCart = existingItem ? prevState.cart.map((item) => 
+                    item._id === product._id ? {...item, quantity: item.quantity + 1} : item) : [...prevState.cart, {...product, quantity: 1}];
+                return {cart: newCart};
+            })
+            get().calculateTotal();
+        } catch (error) {
+            toast.error("Error in adding product to cart");
+            console.log("Error in adding product to cart", error.message);
+        }
+    },
+    calculateTotal: () => {
+        const {cart, coupon} = get();
+        const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        let total = subtotal;
+        if(coupon){
+            total = subtotal - (subtotal * (coupon.discountPercentage / 100));
+        }
+        set({subtotal, total});
+        return {subtotal, total, coupon};
+    },
+ 
+}));

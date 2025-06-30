@@ -35,7 +35,6 @@ function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/signup" element={!user? <SignupPage /> : <Navigate to="/" />}></Route>
           <Route path="/login" element={!user? <LoginPage /> : <Navigate to="/"/>}></Route>
-          <Route path="/" element={<HomePage />}></Route>
           <Route path="/secret-dashboard" element={user?.role === "admin"? <AdminPage /> : <Navigate to="/"/>}></Route>
           <Route path="/category/:category" element={<CategoryPage />}></Route>
         </Routes>
