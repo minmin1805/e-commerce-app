@@ -40,7 +40,7 @@ export const useCartStore = create((set, get) => ({
     },
     calculateTotal: () => {
         const {cart, coupon} = get();
-        const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        const subtotal = cart.reduce((acc, item) => acc + item?.product?.price * item?.quantity, 0);
         let total = subtotal;
         if(coupon){
             total = subtotal - (subtotal * (coupon.discountPercentage / 100));
@@ -48,5 +48,28 @@ export const useCartStore = create((set, get) => ({
         set({subtotal, total});
         return {subtotal, total, coupon};
     },
+    removeFromCart: async (productId) => {
+        try {
+            await axios.delete(`/cart/`, { data: { productId } });
+            toast.success("Product removed from cart");
+            await get().getAllCartItems();
+            get().calculateTotal();
+        } catch (error) {
+            toast.error("Error in removing product from cart");
+            console.log("Error in removing product from cart", error.message);
+        }
+    },
+
+    updateQuantity: async (productId, quantity) => {
+        try {
+            await axios.put(`/cart/`, {productId, quantity});
+            toast.success("Quantity updated");
+            await get().getAllCartItems();
+            get().calculateTotal();
+        } catch (error) {
+            toast.error("Error in updating quantity");
+            console.log("Error in updating quantity", error.message);
+        }
+    }
  
 }));

@@ -65,26 +65,38 @@ export const removeAllFromCart = async (req, res) => {
 
 export const updateQuantity =async  (req, res) => {
     try {
-        const {id:productId} = req.params;
-        const {quantity} = req.body;
+
+        const {productId, quantity} = req.body;
+        console.log("productId", productId);
+        console.log("quantity", quantity);
         const user = req.user;
-        const existingItem = user.cartItems.find((item) => item.id === productId);
-        
+        const existingItem = user.cartItems.find((item) => item._id.toString() === productId);
+
         if(existingItem) {
-            if(quantity == 0) {
-                user.cartItems = user.cartItems.filter((item) => item.id !== productId);
-                await user.save();
-                return res.json(user.cartItems);
-            }
             existingItem.quantity = quantity;
-            await user.save();
-            return res.json(user.cartItems);
-                }
-                else {
-                    return res.status(404).json({ message: "Product not found in cart" });
-                }
+        }
+        await user.save();
+        res.json(user.cartItems);
+        console.log("Product quantity updated");
     } catch (error) {
         console.log("Error in updating product quantity in cart", error.message);
         res.status(500).json({ message: error.message });
+    }
+}
+
+export const removeFromCart = async (req, res) => {
+    try {
+        const {productId} = req.body;
+        console.log("productId", productId);
+        console.log("body", req.body);
+        const user = req.user;
+        const updatedCart = user.cartItems.filter((item) => item._id.toString() !== productId);
+        // console.log("updatedCart", updatedCart);
+        user.cartItems = updatedCart;
+        await user.save();
+        res.json(user.cartItems);
+        console.log("Product removed from cart");
+    } catch (error) {
+        console.log("Error in removing product from cart", error.message);
     }
 }
