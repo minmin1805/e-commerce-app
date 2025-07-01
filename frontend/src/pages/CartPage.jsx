@@ -3,8 +3,14 @@ import { useCartStore } from "../stores/useCartStore";
 import { FaTrashAlt } from "react-icons/fa";
 import RecommendedProductCard from "../components/RecommendedProductCard";
 import axios from "../lib/axios";
+import { loadStripe } from "@stripe/stripe-js";
+import { toast } from "react-hot-toast";
 
 function CartPage() {
+
+  const stripePromise = loadStripe("pk_test_51RU0UdEKdPO6nAqzZRoZgwQTvjfaD0a1FduNQ3hfCEGkqhTM0P4TifpUhvxrzqKtPBjL495URB9WGm8rPsYLRJXL0003wj5xA3")
+
+
   const { cart, total, coupon, subtotal, removeFromCart, updateQuantity } = useCartStore();
   const [getRecommendedProducts, setGetRecommendedProducts] = useState([]);
 
@@ -20,6 +26,22 @@ function CartPage() {
     }
     fetchRecommendedProducts();
   }, [cart]);
+
+  const handlePayment = async () => {
+    const stripe = await stripePromise;
+    const response = await axios.post(`/payments/create-checkout-session`, {products: cart, couponCode: coupon ? coupon.code : null});
+    const session = response.data;
+    console.log("session", session);
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      toast.error("Error in redirecting to checkout");
+      console.log("error:", result.error);
+    }
+  }
 
 
   return (
@@ -38,7 +60,7 @@ function CartPage() {
             {/* Cart Items */}
             <div className="flex flex-col gap-5 w-[100%]">
               {cart?.map((eachItem) => (
-                <div className="flex flex-row justify-between items-center bg-gray-800 p-5 rounded-lg w-full">
+                <div key={eachItem.product._id} className="flex flex-row justify-between items-center bg-gray-800 p-5 rounded-lg w-full">
                   <div className="flex flex-row gap-3">
                     <img
                       src={eachItem?.product?.image}
@@ -102,7 +124,7 @@ function CartPage() {
                   <p>Total</p>
                   <p>${total}</p>
                 </div>
-                <button className="bg-blue-500 text-white px-3 py-1 rounded-lg">
+                <button onClick={handlePayment}  className="bg-blue-500 text-white px-3 py-1 rounded-lg">
                   Proceed to Checkout
                 </button>
                 <a href="/" className="text-blue-500 text-center">
