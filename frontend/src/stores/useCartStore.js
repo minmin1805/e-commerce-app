@@ -70,6 +70,9 @@ export const useCartStore = create((set, get) => ({
             toast.error("Error in updating quantity");
             console.log("Error in updating quantity", error.message);
         }
-    }
+    },
+    clearCart: () => {
+        set({cart: [], total: 0, coupon: null, subtotal: 0});
+    },
  
 }));

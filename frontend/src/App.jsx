@@ -11,6 +11,7 @@ import AdminPage from "./pages/AdminPage";
 import CategoryPage from "./pages/CategoryPage";
 import CartPage from "./pages/CartPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import CheckoutFailedPage from "./pages/CheckoutFailedPage.jsx";
 
 function App() {
 
@@ -40,7 +41,8 @@ function App() {
           <Route path="/secret-dashboard" element={user?.role === "admin"? <AdminPage /> : <Navigate to="/"/>}></Route>
           <Route path="/category/:category" element={<CategoryPage />}></Route>
           <Route path="/cart" element={user ? <CartPage /> : <Navigate to="/login" />}></Route>
-          <Route path="/payment-success" element={user ? <PaymentSuccessPage /> : <Navigate to="/login" />}></Route>
+          <Route path="/purchase-success" element={user ? <PaymentSuccessPage /> : <Navigate to="/login" />}></Route>
+          <Route path="/checkout-failed" element={user ? <CheckoutFailedPage /> : <Navigate to="/login" />}></Route>
         </Routes>
       </div>
       <Toaster />
