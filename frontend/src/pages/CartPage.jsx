@@ -11,10 +11,13 @@ function CartPage() {
   const stripePromise = loadStripe("pk_test_51RU0UdEKdPO6nAqzZRoZgwQTvjfaD0a1FduNQ3hfCEGkqhTM0P4TifpUhvxrzqKtPBjL495URB9WGm8rPsYLRJXL0003wj5xA3")
 
 
-  const { cart, total, coupon, subtotal, removeFromCart, updateQuantity } = useCartStore();
+  const { cart, total, coupon, subtotal, removeFromCart, updateQuantity, getMyCoupon, applyCoupon, removeCoupon, isCouponApplied } = useCartStore();
   const [getRecommendedProducts, setGetRecommendedProducts] = useState([]);
 
-  console.log("cart", cart);
+
+  const [userCoupon, setUserCoupon] = useState(null);
+
+  // console.log("cart", cart);
   console.log("total", total);
   // console.log("coupon", coupon);
   // console.log("subtotal", subtotal);
@@ -26,6 +29,20 @@ function CartPage() {
     }
     fetchRecommendedProducts();
   }, [cart]);
+
+  useEffect(() => {
+    getMyCoupon();
+  }, [getMyCoupon]);
+
+  useEffect(() => {
+    if(coupon){
+      setUserCoupon(coupon.code);
+      // console.log("userCoupon", userCoupon);
+    }
+  }, [coupon]);
+
+
+
 
   const handlePayment = async () => {
     const stripe = await stripePromise;
@@ -40,6 +57,19 @@ function CartPage() {
     if (result.error) {
       toast.error("Error in redirecting to checkout");
       console.log("error:", result.error);
+    }
+  }
+
+  const handleRemoveCoupon = async () => {
+    await removeCoupon();
+    setUserCoupon("");
+  }
+
+  const handleApplyCoupon = () => {
+    if(userCoupon){
+      applyCoupon(userCoupon);
+    } else {
+      toast.error("Please enter a coupon code");
     }
   }
 
@@ -115,9 +145,19 @@ function CartPage() {
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-2 bg-gray-800 p-5 rounded-lg">
                 <h2>Order Summary</h2>
-                <div className="flex flex-row justify-between items-center">
-                  <p>Original Price</p>
-                  <p>${total}</p>
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-row justify-between items-center">
+                    <p>Original Price</p>
+                    <p>${subtotal}</p>
+                  </div>
+                  {isCouponApplied && (
+                    <>
+                      <div className="flex flex-row justify-between items-center">
+                        <p>Savings</p>
+                        <p>-${subtotal - total}</p>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="w-full h-[1px] bg-gray-700"></div>
                 <div className="flex flex-row justify-between items-center">
@@ -138,14 +178,26 @@ function CartPage() {
                   type="text"
                   placeholder="Enter voucher code"
                   className="bg-gray-800 text-white px-3 py-1 rounded-lg"
+                  value={userCoupon}
+                  onChange={(e) => setUserCoupon(e.target.value)}
                 />
-                <button className="bg-blue-500 text-white px-3 py-1 rounded-lg">
+                <button onClick={handleApplyCoupon} className="bg-blue-500 text-white px-3 py-1 rounded-lg">
                   Apply
                 </button>
                 <h2>Your Available Coupon: </h2>
+                {isCouponApplied && (
+                  <p>{coupon?.code} - {coupon?.discountPercentage}% off</p>
+                )}
                 {coupon ? (
                   <div className="flex flex-row justify-between items-center">
                     <p>{coupon.name}</p>
+                    {isCouponApplied ? (
+                      <button onClick={handleRemoveCoupon} className="bg-red-500 text-white px-3 py-1 rounded-lg">
+                        Remove
+                      </button>
+                    ) : (
+                      <p>No coupon applied</p>
+                    )}
                   </div>
                 ) : (
                   <p>No coupon available </p>
