@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+
+:root {
+    --soft-peach: #FFCCBC;
+    --warm-beige: #FFE0B2;
+    --muted-coral: #FF8A65;
+    --deep-burnt-orange: #BF360C;
+    --off-white: #FFF8F3;
+    --gentle-brown: #8D6E63;
+    --light-brown: #BCAAA4;
+    --shadow: rgba(139, 69, 19, 0.1);
+}
+
+
+/* body {
+    background: linear-gradient(135deg, var(--warm-beige) 0%, var(--soft-peach) 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+} */
+
+
+/* .hero {
+    background: linear-gradient(135deg, var(--soft-peach) 0%, var(--warm-beige) 50%, var(--muted-coral) 100%);
+} */ */
+
+/* linear-gradient(135deg, var(--warm-beige) 0%, var(--soft-peach) 100%); */
