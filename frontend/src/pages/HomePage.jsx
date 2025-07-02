@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import CategoryItem from "../components/CategoryItem";
-// import { useProductStore } from "../stores/useProductStore";
-// import FeaturedProducts from "../components/FeaturedProducts";
+import { useCartStore } from "../stores/useCartStore";
+import FeaturedProducts from "../components/FeaturedProducts";
+import { useProductStore } from "../stores/useProductStore";
 
 const categories = [
 	{ href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
@@ -14,11 +15,13 @@ const categories = [
 ];
 
 const HomePage = () => {
-	// const { fetchFeaturedProducts, products, isLoading } = useProductStore();
+	const {fetchFeaturedProducts, featuredProducts, loading} = useProductStore();
 
-	// useEffect(() => {
-	// 	fetchFeaturedProducts();
-	// }, [fetchFeaturedProducts]);
+	useEffect(() => {
+		fetchFeaturedProducts();
+	}, [fetchFeaturedProducts]);
+
+	console.log("featuredProducts", featuredProducts);
 
 	return (
 		<div className='relative min-h-screen text-white overflow-hidden'>
@@ -36,7 +39,7 @@ const HomePage = () => {
 					))}
 				</div>
 
-				{/* {!isLoading && products.length > 0 && <FeaturedProducts featuredProducts={products} />} */}
+				{!loading && featuredProducts?.length > 0 && <FeaturedProducts featuredProducts={featuredProducts} />}
 			</div>
 		</div>
 	);

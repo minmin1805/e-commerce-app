@@ -98,6 +98,7 @@ export const useCartStore = create((set, get) => ({
         set({coupon: null, isCouponApplied: false});
         get().calculateTotal();
         toast.success("Coupon removed successfully");
-    }
+    },
+
  
 }));
