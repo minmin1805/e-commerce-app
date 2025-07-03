@@ -17,6 +17,14 @@ function Navbar() {
     getAllCartItems();
   }, []);
 
+  // scroll to section
+  const handleScroll = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <header
       style={{
@@ -37,7 +45,7 @@ function Navbar() {
 
           <div className="flex flex-row items-center gap-4">
             <Link
-              to={"/"}
+              onClick={() => handleScroll("home")}
               style={{ color: "var(--gentle-brown)" }}
               className="text-2xl transition duration-300 font-medium
 					 ease-in-out"
@@ -49,28 +57,28 @@ function Navbar() {
               className="text-2xl transition duration-300 font-medium
 					 ease-in-out"
             >
-              Categories
+              <Link onClick={() => handleScroll("category")}>Categories</Link>
             </p>
             <p
               style={{ color: "var(--gentle-brown)" }}
               className="text-2xl transition duration-300 font-medium
 					 ease-in-out"
             >
-              Featured
+              <Link onClick={() => handleScroll("featured")}>Featured</Link>
             </p>
             <p
               style={{ color: "var(--gentle-brown)" }}
               className="text-2xl transition duration-300 font-medium
 					 ease-in-out"
             >
-              About
+              <Link onClick={() => handleScroll("about")}>About</Link>
             </p>
             <p
               style={{ color: "var(--gentle-brown)" }}
               className="text-2xl transition duration-300 font-medium
 					 ease-in-out"
             >
-              Contact
+              <Link onClick={() => handleScroll("contact")}>Contact</Link>
             </p>
           </div>
 
