@@ -37,8 +37,8 @@ const HomePage = () => {
           }}
           className="flex flex-row items-center p-3 border-2 border-gray-300 rounded-3xl w-full mt-20 gap-5"
         >
-          <div id="home" className="flex flex-col justify-center w-1/2 p-3 pb-30">
-            <h2 className="text-6xl font-bold mb-8 mt-30">
+          <div id="home" className="flex flex-col justify-center w-1/2 p-3 py-30 ml-15">
+            <h2 className="text-6xl font-bold mb-8 mt-20">
               Welcome to Your Cozy Corner
             </h2>
             <p className="text-3xl">
@@ -51,9 +51,9 @@ const HomePage = () => {
           </div>
 
           <img
-            src="/images/cozy-corner.jpg"
+            src="/hero-picture.jpeg"
             alt="cozy-corner"
-            className="w-1/2 h-1/2"
+            className=" rounded-3xl w-1/3 h-1/3 ml-25"
           />
         </div>
 
