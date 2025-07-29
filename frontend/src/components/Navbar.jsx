@@ -43,7 +43,7 @@ function Navbar() {
             CozyCommerce
           </Link>
 
-          <div className="flex flex-row items-center gap-4">
+          <div className="flex flex-row items-center gap-7">
             <Link
               onClick={() => handleScroll("home")}
               style={{ color: "var(--gentle-brown)" }}
