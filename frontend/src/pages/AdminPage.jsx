@@ -23,9 +23,9 @@ const AdminPage = () => {
 
 	return (
 		<div className='min-h-screen relative overflow-hidden'>
-			<div className='relative z-10 container mx-auto px-20 py-16'>
+			<div className='relative z-10 container mx-auto px-20 pt-25 pb-10'>
 				<motion.h1
-					className='text-4xl font-bold mb-8 text-emerald-400 text-center'
+					className='text-4xl font-bold mb-8 text-[#BF360C] text-center'
 					initial={{ opacity: 0, y: -20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8 }}
@@ -40,8 +40,8 @@ const AdminPage = () => {
 							onClick={() => setActiveTab(tab.id)}
 							className={`flex items-center px-4 py-2 mx-2 rounded-md transition-colors duration-200 ${
 								activeTab === tab.id
-									? "bg-emerald-600 text-white"
-									: "bg-gray-700 text-gray-300 hover:bg-gray-600"
+									? "bg-[#BF360C] text-white"
+									: "bg-[#FFCCBC] text-[#BF360C] hover:bg-[#BF360C] hover:text-white"
 							}`}
 						>
 							<tab.icon className='mr-2 h-5 w-5' />
@@ -49,10 +49,11 @@ const AdminPage = () => {
 						</button>
 					))}
 				</div>
-				{activeTab === "create" && <CreateProductForm />}
+
+			</div>
+			{activeTab === "create" && <CreateProductForm />}
 				{activeTab === "products" && <ProductsList />}
 				{activeTab === "analytics" && <AnalyticsTab />}
-			</div>
 		</div>
 	);
 };
