@@ -33,61 +33,61 @@ function Navbar() {
       }}
       className="fixed top-0 left-0 w-full shadow-lg transition-all duration-300 border-b z-50"
     >
-      <div className="container mx-auto py-8">
-        <div className="flex flex-wrap justify-between items-center">
+      <div className="w-full px-30 py-10">
+        <div className="flex items-center justify-between">
           <Link
             to="/"
             style={{ color: "var(--deep-burnt-orange)" }}
-            className="text-4xl font-bold "
+            className="text-4xl font-bold ml-0"
           >
             CozyCommerce
           </Link>
 
-          <div className="flex flex-row items-center gap-7">
+          <div className="flex flex-row items-center gap-10">
             <Link
               onClick={() => handleScroll("home")}
               style={{ color: "var(--gentle-brown)" }}
-              className="text-2xl transition duration-300 font-medium
+              className="text-3xl transition duration-300 font-medium
 					 ease-in-out"
             >
               Home
             </Link>
             <p
               style={{ color: "var(--gentle-brown)" }}
-              className="text-2xl transition duration-300 font-medium
+              className="text-3xl transition duration-300 font-medium
 					 ease-in-out"
             >
               <Link onClick={() => handleScroll("category")}>Categories</Link>
             </p>
             <p
               style={{ color: "var(--gentle-brown)" }}
-              className="text-2xl transition duration-300 font-medium
+              className="text-3xl transition duration-300 font-medium
 					 ease-in-out"
             >
               <Link onClick={() => handleScroll("featured")}>Featured</Link>
             </p>
             <p
               style={{ color: "var(--gentle-brown)" }}
-              className="text-2xl transition duration-300 font-medium
+              className="text-3xl transition duration-300 font-medium
 					 ease-in-out"
             >
               <Link onClick={() => handleScroll("about")}>About</Link>
             </p>
             <p
               style={{ color: "var(--gentle-brown)" }}
-              className="text-2xl transition duration-300 font-medium
+              className="text-3xl transition duration-300 font-medium
 					 ease-in-out"
             >
               <Link onClick={() => handleScroll("contact")}>Contact</Link>
             </p>
           </div>
 
-          <div className="flex flex-row items-center gap-4 ">
+          <div className="flex flex-row items-center gap-4 mr-0">
             {user && (
               <Link
                 to={"/cart"}
                 className="relative group text-gray-300 hover:text-amber-800 transition duration-300 
-							ease-in-out mr-4"
+							ease-in-out mr-6"
               >
                 <div className="relative">
                   <div className="w-12 h-12 rounded-full border-2 border-amber-800 flex items-center justify-center group-hover:border-amber-900 transition duration-300 ease-in-out">
@@ -96,7 +96,7 @@ function Navbar() {
                       size={25}
                     />
                   </div>
-                  <span className="hidden sm:inline text-amber-800 ml-2">Cart</span>
+                  <span className="hidden sm:inline text-amber-800 ml-2 text-xl">Cart</span>
 
                   <span
                     className="absolute -top-2 -right-2 bg-amber-800 text-white rounded-full px-2 py-0.5 
@@ -115,7 +115,7 @@ function Navbar() {
                 to={"/secret-dashboard"}
               >
                 <Lock className="inline-block mr-1" size={18} />
-                <span className="hidden sm:inline">Dashboard</span>
+                <span className="hidden sm:inline text-2xl">Dashboard</span>
               </Link>
             )}
 
@@ -126,7 +126,7 @@ function Navbar() {
                 onClick={handleLogout}
               >
                 <LogOut size={18} />
-                <span className="hidden sm:inline ml-2">Log Out</span>
+                <span className="hidden sm:inline ml-2 text-2xl">Log Out</span>
               </button>
             ) : (
               <>
