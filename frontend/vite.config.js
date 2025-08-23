@@ -11,5 +11,14 @@ export default defineConfig({
         target: "http://localhost:5001",
       }
     }
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
   }
 })
