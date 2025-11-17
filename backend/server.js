@@ -55,10 +55,3 @@ app.listen(PORT, () => {
     console.log(`Static files path: ${path.join(__dirname, "/frontend/dist")}`);
     connectDB();
 })
-
-
-
-//lKLAUycW1rLPHojJ
-
-//mongodb+srv://doanlyminh2005:lKLAUycW1rLPHojJ@cluster0.guhhnst.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-
